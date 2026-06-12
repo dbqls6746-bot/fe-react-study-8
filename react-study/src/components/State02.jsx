@@ -37,7 +37,7 @@ function State02(){
 
             <hr />
             {
-                msgARr.map((msg)=>{
+                msgArr.map((msg)=>{
                     return(
                         <p>인사 : {msg}</p>
                     )
