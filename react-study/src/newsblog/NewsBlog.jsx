@@ -63,6 +63,37 @@ function NewsBlog() {
 
                             }}>❤</span> {likeCountArr[index]}  </h4>
                             <p>내용자리</p>
+                            <button onClick={()=>{
+                                //누른 대상을 삭제
+                                //배열안에 누른 대상의 index 위치에 있는 값을 제거
+
+                                // index 
+
+                                // arr.splice(index, 몇개지울, 추가할값)
+                                //             0,    1
+                                //             5,    0,        10
+                                //             3,    1,        3
+
+                                
+                                //뉴스제목
+                                // let temp = [...news];
+                                // temp.splice(index, 1);  //삭제를 누른 index위치에 값 1개 삭제
+                                // setNews(temp);
+
+                                // //좋아요 갯수 같이 삭제
+                                // likeCountArr.splice(index, 1);
+                                                    // 2 index 
+                                let temp = [...news];
+                                temp = temp.filter((value, idx)=>{
+                                    return idx != index;   // 0 != 2   1 != 2  2 != 2
+                                })
+                                console.log(temp);
+                                setNews(temp);
+
+                                setLikeCountArr( likeCountArr.filter(( _ , idx) => idx != index ))
+                                
+
+                            }}>삭제</button>
                         </div>
                     )
                 })
@@ -97,13 +128,13 @@ function NewsBlog() {
 
                     // inputText -> 등록하려는 값
 
-                    inputText = inputText,trim(); //앞뒤공백제거
-                    //setInputText(inputText.trim());
+                    inputText = inputText.trim(); //앞뒤공백제거
+                    //setInputText(inputText.trim())
 
                     //추가하려는 값이 비어있으면? 진행X
-                    if(inputText.trim()===''){
-                        alert('뉴스 제목을 제대로 입력하지 않았습니다. 다시 입력해주세요');
-                        setInputText('');   //입력칸 초기화
+                    if(inputText == ''){
+                        alert('값을 입력해주세요');
+                        setInputText('');  //입력칸 초기화
                         return;
                     }
 
@@ -111,11 +142,12 @@ function NewsBlog() {
                     temp.push(inputText);
                     setNews(temp);
 
-                    let tempLikes = [...likeCountArr,0]
-                    setLikeCount(tempLikes);
-                    setLikeCountArr(tempLikes);
-
                     setInputText(''); //입력된 값 제거
+
+                    //좋아요 갯수 처리 추가
+                    let temp2 = [ ...likeCountArr, 0];
+                    setLikeCountArr(temp2);
+                    //likeCountArr.push(0); //배열 뒤에 0 값 추가
 
                 }}>발행</button>
             </div>
