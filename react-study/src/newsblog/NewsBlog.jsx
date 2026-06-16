@@ -23,8 +23,13 @@ function NewsBlog() {
 
     let [modalFlag, setModalFlag] = useState(false);
 
+
+    //Modal 창에 전달할 선택한 뉴스 포스팅의 관련 정보
     let [selectedTitle, setSelectedTitle] = useState('');
     let [selectedLikeCount, setSelectedLikeCount] = useState(0);
+
+    //input 요소에서 입력된 값을 저장하는 용도
+    let [inputText, setInputText] = useState('');
 
 
     return (
@@ -42,8 +47,9 @@ function NewsBlog() {
                     return (
                         <div className='post-list' key={index}>
                             <h4 onClick={() => {
-                                setModalFlag(!modalFlag); //모달창 표시 여부 On/Off   true/false
-                                //어떤 뉴스를 눌렀는지 정보 -> state 저장 => Modal props 전달
+                                
+                                setModalFlag(!modalFlag); //모달창 표시 여부 On/Off   true/false 
+                                //어떤 뉴스를 눌렀는지 정보 -> state 저장 -> Modal props 전달
                                 setSelectedTitle(item);
                                 setSelectedLikeCount(likeCountArr[index]);
 
@@ -62,19 +68,66 @@ function NewsBlog() {
                 })
             }
 
+
             <button onClick={()=>{
                 let temp = [...news];
-                temp[0]= 'Today 긴급 속보'
+                temp[0] = 'Today 긴급 속보';
                 setNews(temp);
             }}>긴급제목변경</button>
+
+            <div>
+                <input type='text' id="input_news_title" value={inputText}  onChange={(event)=>{
+
+                    //input 창에서 입력이 발생 -> onChange 변경된 함수 -> value 값 -> state변수에 저장
+
+                    //console.log(event);
+                    console.log(event.target.value);
+                    setInputText(event.target.value);
+
+                    /*
+                    let input_title = document.getElementById('input_news_title');
+                    let title = input_title.value;
+
+                    배열...push(title);
+                    input_title.value = '';
+                    */
+                }}/>
+                <button onClick={()=>{
+                    // 발행 버튼 클릭 -> input 입력한 값 state변수에 저장된값 -> 배열에 등록/추가 처리
+
+                    // inputText -> 등록하려는 값
+
+                    inputText = inputText,trim(); //앞뒤공백제거
+                    //setInputText(inputText.trim());
+
+                    //추가하려는 값이 비어있으면? 진행X
+                    if(inputText.trim()===''){
+                        alert('뉴스 제목을 제대로 입력하지 않았습니다. 다시 입력해주세요');
+                        setInputText('');   //입력칸 초기화
+                        return;
+                    }
+
+                    let temp = [...news];
+                    temp.push(inputText);
+                    setNews(temp);
+
+                    let tempLikes = [...likeCountArr,0]
+                    setLikeCount(tempLikes);
+                    setLikeCountArr(tempLikes);
+
+                    setInputText(''); //입력된 값 제거
+
+                }}>발행</button>
+            </div>
+
 
             {
                 /* modalFlag == true ?  <Modal/> : nul */
             }
 
             {
-                modalFlag && <Modal title={selectedTitle} likeCount={selectedLikeCount}
-                                news={news} setNews={setNews} bgColor={'lightgray'} />
+                modalFlag && <Modal title={selectedTitle} likeCount={selectedLikeCount} 
+                                news={news} setNews={setNews} bgColor={'lightblue'} />
             }
 
 
