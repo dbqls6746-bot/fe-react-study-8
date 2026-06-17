@@ -3,11 +3,14 @@ import { Card, Button } from "react-bootstrap";
 import food1 from '../img/food1.jpg';
 import food2 from '../img/food2.jpg';
 import food3 from '../img/food3.jpg';
-import {useNavigate} from "react-router"
+import { useNavigate } from "react-router";
+
 
 function FoodCard( {food, foods, index } ) {
 
     let navigate = useNavigate();
+
+
     return (
         <Card style={{ width: '18rem' }}>
             {/* <Card.Img variant="top" src={ food.imgPath} />
