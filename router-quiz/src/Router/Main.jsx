@@ -10,10 +10,10 @@ function Main() {
             <span className='box'><Link to="/mypage">/mypage</Link></span>
             <span className='box'><Link to="/cart">/cart</Link></span>
 
-            <span className='box' onClick={()=>{ navigate("/")}}>Main</span>
+            {/* <span className='box' onClick={()=>{ navigate("/")}}>Main</span>
             <span className='box' onClick={()=>{ navigate("/info")}}>/info</span>
             <span className='box' onClick={()=>{ navigate("/mypage")}}>/mypage</span>
-            <span className='box' onClick={()=>{ navigate("/cart")}}>/cart</span>
+            <span className='box' onClick={()=>{ navigate("/cart")}}>/cart</span> */}
 
             <div className='bg'>
                 <Routes>
