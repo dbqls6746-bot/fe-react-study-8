@@ -65,20 +65,20 @@ function Detail({ foods }) {
         }, 500)
     }, [])
 
-    let [modalShow,setModalShow] = useState(true); //모달창 표시 여부 ture/false
+    let [ modalShow, setModalShow ] = useState(true); //모달창 표시 여부 ture/false
 
     //Modal 창 자동으로 닫히게 적용
-    useEffect(()=>{
+    useEffect(() => {
         //modalShow State변수 true -> false
 
-        setTimeout(()=>{
+        setTimeout(() => {
             setModalShow(false);
-        },2000)
+        }, 2000)
         //2초 후 자동 닫기
 
-    },[])
+    }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
 
         //setTimeout
         //setInterval
@@ -87,15 +87,15 @@ function Detail({ foods }) {
         //clearTimeout
         //clearInterval
 
-        const interv = setInterval(()=>{
+        const interv = setInterval(() => {
             console.log('interval')
         }, 1000)
 
         //clean up function
-        return ()=>{
+        return () => {
             clearInterval(interv);
         }
-    }, [orderCount])
+    }, [ orderCount ])
     //---------------------------------------------------------------
 
     //경로에 있는 값을 읽어오기
@@ -133,6 +133,137 @@ function Detail({ foods }) {
         )
     }
 
+
+
+    //--------------------------------------------------------------
+
+    // 스타일 적용
+
+    /*
+        조건에 따라서 스타일 적용
+        가격표시
+            1만원 이상 -> 빨간색
+            1만원 미만 -> 파란색
+
+        
+        1) js 객체
+
+        <p style={ {color:'red', fontSize:'20px'} }>{food.price}</p>
+        const priceTextStyle ={
+        color: food.price >= 10000 ? 'red' : 'blue'
+    }
+    // {color:'red}     {color:'blue'}
+
+    // <p style={priceTextStyle}>{food.price}</p>
+    // <p style={{color: food.price >= 10000 ? 'red' : 'blue'}}>{food.price}</p>
+
+
+    2) js 함수 방식
+    const priceTextStylefunc = (price)=>{
+        if(price >= 10000){
+            return {color:'red'}
+        } else{
+            return {color:'blue'}
+        }
+
+        //return { color: food.price >= 10000 ? 'red' : 'blue'};
+    }
+
+    <p style={priceTextStylefunc(food.price)}>{food.price}</p>
+
+    3) css 클래스 연계 사용
+
+    //클래스 단일
+    <p className={food.price >= 10000 ? 'price-red' : 'price-blue'}>{food.price}</p>
+
+    //클래스 여러개
+    <p className={ 'text-strong ' + (food.price >= 10000 ? 'price-red' : 'price-blue')}>{food.price}</p>
+
+    // className=속성값 에 들어가는 변수 형태로도 활용
+    const priceTextClassName = (food.price <= 10000 ? 'price-red' : 'price-blue');
+    <p className = { 'text-strong' + priceTextClassName }>{food.price}</p>
+
+    // 배열단위로 관리 join 함수 활용
+    ['text-strong ', 'price-red' ) ] .join(" ") ->  'text=strong price-red'
+    ['text-strong ', 'price-red' ) ] .join("/") ->  'text=strong price-red'
+    <p className = { ['text-strong ', (food.price >= 10000 ? 'price-red' : 'price-blue') ] .join(" ")}>{food.price}</p>
+
+    //백틱문자 활용 ````````
+    <p className = { `text-strong ${priceTextClassName}` }>{food.price}</p>
+    <p className = { `text-strong ${(food.price >= 10000 ? 'price-red' : 'price-blue')}` }>{food.price}</p>
+
+    4) css class + useStatus + useEffect 조합 활용 -> 효과 발생
+    let [ viewStatus, setViewStatus ] = useState('');
+
+    useEffect(() => {
+        //setViewStatus('end')
+
+        setTimeout(() => {
+            setViewStatus('end')
+        }, 500)
+    }, [])
+
+    <Container className={"start " + viewStatus}>
+
+    5. js 객체로 내부에서 스타일 정의 후 사용
+
+    const styles = {
+
+        redStyle : { color : 'red'},        //styles/redStyle
+
+        blueStyle : { color : 'blue' },     //styles/blueStyle
+
+        fontBigBold : {
+            fontSize:'36px',
+            fontWeight:'bold'
+        },
+
+        TitleBold : {
+            paddingTop:'30px',
+            fonstSize:'40px',
+            fontWeight:'bold'
+        },
+    }
+
+    <h4 style={ styles.TitleBold}>{food.title}</h4>
+    <p style={ styles.fontBigBold}>{food.content}</p>
+    */
+
+    const styles = {
+
+        redStyle : { color : 'red'},        //styles/redStyle
+
+        blueStyle : { color : 'blue' },     //styles/blueStyle
+
+        fontBigBold : {
+            fontSize:'36px',
+            fontWeight:'bold'
+        },
+
+        TitleBold : {
+            paddingTop:'30px',
+            fonstSize:'40px',
+            fontWeight:'bold'
+        },
+    }
+
+    const priceTextStylefunc = (price)=>{
+        if(price >= 10000){
+            return {color:'red'}
+        } else{
+            return {color:'blue'}
+        }
+
+        //return { color: food.price >= 10000 ? 'red' : 'blue'};
+    }
+
+    const priceTextStyle ={
+        color: food.price >= 10000 ? 'red' : 'blue'
+    }
+    
+    const priceTextClassName = (food.price <= 10000 ? 'price-red' : 'price-blue');
+
+    //--------------------------------------------------------------
     return (
         <Container className={"start " + viewStatus}>
             <Row>
@@ -140,18 +271,30 @@ function Detail({ foods }) {
                     <img src={import.meta.env.BASE_URL + food.imgPath} style={{ width: '100%' }} />
                 </Col>
                 <Col md={6}>
-                    <h4>{food.title}</h4>
-                    <p>{food.content}</p>
+                    <h4 style={{ paddingTop: '30px' }}>{food.title}</h4>
+                    <h4 style={ styles.TitleBold}>{food.title}</h4>
+                    <p style={ styles.fontBigBold}>{food.content}</p>
                     <p>{food.price}</p>
+                    <p style={priceTextStyle}>{food.price}</p>
+                    <p style={{ color: food.price >= 10000 ? 'red' : 'blue' }}>{food.price}</p>
+                    <p style={priceTextStylefunc(food.price)}>{food.price}</p>
+
+                    <p className={food.price >= 10000 ? 'price-red' : 'price-blue'}>{food.price}</p>
+                    <p className={ 'text-strong ' + (food.price >= 10000 ? 'price-red' : 'price-blue')}>{food.price}</p>
+                    <p className = { 'text-strong ' + priceTextClassName }>{food.price}</p>
+                    <p className = { ['text-strong ', (food.price >= 10000 ? 'price-red' : 'price-blue') ] .join(" ")}>{food.price}</p>
+                    <p className = { `text-strong ${priceTextClassName}` }>{food.price}</p>
+                    <p className = { `text-strong ${(food.price >= 10000 ? 'price-red' : 'price-blue')}` }>{food.price}</p>
 
                     <p>
                         <Button variant="dark" onClick={() => {
-                            if(orderCount > 0) {
-                                setOrderCount(orderCount - 1)}
-                            }}>-</Button>
+                            if (orderCount > 0) {
+                                setOrderCount(orderCount - 1)
+                            }
+                        }}>-</Button>
                         <span> {orderCount} </span>
                         <Button variant="dark" onClick={() => {
-                            if (orderCount < food.stockCount){
+                            if (orderCount < food.stockCount) {
                                 setOrderCount(orderCount + 1);
                                 console.log('onClick() : ' + (orderCount + 1))
                             } else {
@@ -167,14 +310,14 @@ function Detail({ foods }) {
                         )
 
                     }
-                    
+
                 </Col>
             </Row>
 
 
             <Modal
                 show={modalShow}
-                onHide={()=>{ setModalShow(false); }}
+                onHide={() => { setModalShow(false); }}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
@@ -191,7 +334,7 @@ function Detail({ foods }) {
                     </p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={()=> { setModalShow(false); }}>Close</Button>
+                    <Button onClick={() => { setModalShow(false); }}>Close</Button>
                 </Modal.Footer>
             </Modal>
 
