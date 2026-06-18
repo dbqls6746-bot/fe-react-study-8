@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router";
 import { useState, useEffect } from "react";
 import './Detail.css'
 
+
 function Detail({ foods }) {
 
     //Detail 페이지에서 보여줄 상품정보
@@ -144,15 +145,29 @@ function Detail({ foods }) {
                     <p>{food.price}</p>
 
                     <p>
-                        <Button variant="dark" onClick={() => { setOrderCount(orderCount - 1) }}>-</Button>
+                        <Button variant="dark" onClick={() => {
+                            if(orderCount > 0) {
+                                setOrderCount(orderCount - 1)}
+                            }}>-</Button>
                         <span> {orderCount} </span>
                         <Button variant="dark" onClick={() => {
-                            setOrderCount(orderCount + 1)
-                            console.log('onClick() : ' + orderCount)
+                            if (orderCount < food.stockCount){
+                                setOrderCount(orderCount + 1);
+                                console.log('onClick() : ' + (orderCount + 1))
+                            } else {
+                                alert('현재 구매 가능한 최대 재고는' + food.stockCount + '개입니다.')
+                            }
                         }}>+</Button>
                     </p>
+                    {
+                        food.stockCount === 0 ? (
+                            <Button variant="secondary" disabled style={{ width: '100%' }}>품절</Button>
+                        ) : (
+                            <Button variant="primary" style={{ width: '100%' }}>주문하기</Button>
+                        )
 
-                    <Button variant="primary" >주문하기</Button>
+                    }
+                    
                 </Col>
             </Row>
 
